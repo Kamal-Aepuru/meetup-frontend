@@ -38,10 +38,13 @@ const EventCard = ({ event }) => (
           })}{" "}
           •{" "}
           {event.startTime
-            ? new Date(`${event.startDate} ${event.startTime}`).toLocaleTimeString(
-                "en-US",
-                { hour: "numeric", minute: "numeric", hour12: true }
-              )
+            ? new Date(
+                `${event.startDate} ${event.startTime}`
+              ).toLocaleTimeString("en-US", {
+                hour: "numeric",
+                minute: "numeric",
+                hour12: true,
+              })
             : "N/A"}{" "}
           IST
         </p>
@@ -55,9 +58,11 @@ export default function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState("");
 
-  const { data: events, loading, error } = useFetch(
-    "https://meetup-backend-indol.vercel.app/events"
-  );
+  const {
+    data: events,
+    loading,
+    error,
+  } = useFetch("https://meetup-backend-indol.vercel.app/events");
   if (error) console.error("Failed to fetch events:", error);
 
   const handleSearch = useCallback((term) => {
@@ -86,12 +91,16 @@ export default function App() {
       <main className="bg-light py-1">
         <div className="container">
           <div className="d-flex align-items-center justify-content-between">
-            <h1>MeetUp Events</h1>
-            <select className="form-select" onChange={handleSelect}>
-              <option value="">Select Event Type</option>
-              <option value="Online">Online</option>
-              <option value="Offline">Offline</option>
-            </select>
+            <div>
+              <h1>MeetUp Events</h1>
+            </div>
+            <div>
+              <select className="form-select" onChange={handleSelect}>
+                <option value="">Select Event Type</option>
+                <option value="Online">Online</option>
+                <option value="Offline">Offline</option>
+              </select>
+            </div>
           </div>
 
           <div className="container row">
@@ -100,7 +109,9 @@ export default function App() {
             ) : filteredEvents.length === 0 ? (
               <p>No Results Found</p>
             ) : (
-              filteredEvents.map((event) => <EventCard key={event._id} event={event} />)
+              filteredEvents.map((event) => (
+                <EventCard key={event._id} event={event} />
+              ))
             )}
           </div>
         </div>
